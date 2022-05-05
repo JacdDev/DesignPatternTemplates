@@ -1,0 +1,73 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Template Method Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            AbstractClass aA = new ConcreteClass1();
+            aA.TemplateMethod();
+
+            AbstractClass aB = new ConcreteClass2();
+            aB.TemplateMethod();
+        }
+    }
+
+    /// <summary>
+    /// AbstractClass abstract class
+    /// This class defines the structure of the template method
+    /// </summary>
+    public abstract class AbstractClass
+    {
+        public abstract void PrimitiveOperation1();
+        public abstract void PrimitiveOperation2();
+
+        public void TemplateMethod()
+        {
+            PrimitiveOperation1();
+            PrimitiveOperation2();
+            Console.WriteLine("End of template method");
+        }
+    }
+
+    /// <summary>
+    /// ConcreteClass 1 class
+    /// This class defines only some steps of the template method
+    /// </summary>
+    public class ConcreteClass1 : AbstractClass
+    {
+        public override void PrimitiveOperation1()
+        {
+            Console.WriteLine("ConcreteClass1 Operation 1");
+        }
+
+        public override void PrimitiveOperation2()
+        {
+            Console.WriteLine("ConcreteClass2 Operation 2");
+        }
+    }
+
+    /// <summary>
+    /// ConcreteClass 2 class
+    /// This class defines only some steps of the template method
+    /// </summary>
+    public class ConcreteClass2 : AbstractClass
+    {
+        public override void PrimitiveOperation1()
+        {
+            Console.WriteLine("ConcreteClass2 Operation 1");
+        }
+
+        public override void PrimitiveOperation2()
+        {
+            Console.WriteLine("ConcreteClass2 Operation 2");
+        }
+    }
+}

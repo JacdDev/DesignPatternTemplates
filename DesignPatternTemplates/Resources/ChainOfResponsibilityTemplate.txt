@@ -1,0 +1,117 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Chan Of Responsibility Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            Handler handler1 = new ConcreteHandler1();
+            Handler handler2 = new ConcreteHandler2();
+            Handler handler3 = new ConcreteHandler3();
+            handler1.SetSuccessor(handler2);
+            handler2.SetSuccessor(handler3);
+
+
+            int[] requests = { 1 ,3 ,2 };
+
+            foreach (int request in requests)
+            {
+                handler1.HandleRequest(request);
+            }
+        }
+    }
+    /// <summary>
+    /// Handler abstract class
+    /// Put here all the members your concrete handlers must define
+    /// </summary>
+    public abstract class Handler
+    {
+        protected Handler successor;
+
+        public void SetSuccessor(Handler successor)
+        {
+            this.successor = successor;
+        }
+
+        public abstract void HandleRequest(int request);
+    }
+
+    /// <summary>
+    /// ConcreteHandler 1 class
+    /// Define the method to handle request or delegate to a sucesor
+    /// </summary>
+    public class ConcreteHandler1 : Handler
+    {
+        public override void HandleRequest(int request)
+        {
+            if (request == 1)
+            {
+                Console.WriteLine("{0} handled request {1}",
+                    this.GetType().Name, request);
+            }
+            else if (successor != null)
+            {
+                successor.HandleRequest(request);
+            }
+            else
+            {
+                Console.WriteLine("Cannot handle request and successor not found");
+            }
+        }
+    }
+
+    /// <summary>
+    /// ConcreteHandler 2 class
+    /// Define the method to handle request or delegate to a sucesor
+    /// </summary>
+    public class ConcreteHandler2 : Handler
+    {
+        public override void HandleRequest(int request)
+        {
+            if (request == 2)
+            {
+                Console.WriteLine("{0} handled request {1}",
+                    this.GetType().Name, request);
+            }
+            else if (successor != null)
+            {
+                successor.HandleRequest(request);
+            }
+            else
+            {
+                Console.WriteLine("Cannot handle request and successor not found");
+            }
+        }
+    }
+
+    /// <summary>
+    /// ConcreteHandler 3 class
+    /// Define the method to handle request or delegate to a sucesor
+    /// </summary>
+    public class ConcreteHandler3 : Handler
+    {
+        public override void HandleRequest(int request)
+        {
+            if (request == 3)
+            {
+                Console.WriteLine("{0} handled request {1}",
+                    this.GetType().Name, request);
+            }
+            else if (successor != null)
+            {
+                successor.HandleRequest(request);
+            }
+            else
+            {
+                Console.WriteLine("Cannot handle request and successor not found");
+            }
+        }
+    }
+}

@@ -1,0 +1,149 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Visitor Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            ObjectStructure o = new ObjectStructure();
+            o.Attach(new ConcreteElement1());
+            o.Attach(new ConcreteElement2());
+
+            ConcreteVisitor1 v1 = new ConcreteVisitor1();
+            ConcreteVisitor2 v2 = new ConcreteVisitor2();
+
+            o.Accept(v1);
+            o.Accept(v2);
+        }
+    }
+
+    /// <summary>
+    /// Visitor abstract class
+    /// Put here the members your concrete visitors must define
+    /// </summary>
+    public abstract class Visitor
+    {
+        public abstract void VisitConcreteElementA(
+            ConcreteElement1 concreteElementA);
+        public abstract void VisitConcreteElementB(
+            ConcreteElement2 concreteElementB);
+    }
+
+    /// <summary>
+    /// ConcreteVisitor 1 class
+    /// This class must define what to do when visiting other elements
+    /// </summary>
+    public class ConcreteVisitor1 : Visitor
+    {
+        public override void VisitConcreteElementA(
+            ConcreteElement1 concreteElementA)
+        {
+            Console.WriteLine("{0} visited by {1}",
+                concreteElementA.GetType().Name, this.GetType().Name);
+        }
+
+        public override void VisitConcreteElementB(
+            ConcreteElement2 concreteElementB)
+        {
+            Console.WriteLine("{0} visited by {1}",
+                concreteElementB.GetType().Name, this.GetType().Name);
+        }
+    }
+
+    /// <summary>
+    /// ConcreteVisitor 2 class
+    /// This class must define what to do when visiting other elements
+    /// </summary>
+    public class ConcreteVisitor2 : Visitor
+    {
+        public override void VisitConcreteElementA(
+            ConcreteElement1 concreteElementA)
+        {
+            Console.WriteLine("{0} visited by {1}",
+                concreteElementA.GetType().Name, this.GetType().Name);
+        }
+
+        public override void VisitConcreteElementB(
+            ConcreteElement2 concreteElementB)
+        {
+            Console.WriteLine("{0} visited by {1}",
+                concreteElementB.GetType().Name, this.GetType().Name);
+        }
+    }
+
+    /// <summary>
+    /// Element abstract class
+    /// Put here the members your concrete elements must define to be visited
+    /// </summary>
+    public abstract class Element
+    {
+        public abstract void Accept(Visitor visitor);
+    }
+
+    /// <summary>
+    /// ConcreteElement 1 class
+    /// This class must define what to do to accept visits
+    /// </summary>
+    public class ConcreteElement1 : Element
+    {
+        public override void Accept(Visitor visitor)
+        {
+            visitor.VisitConcreteElementA(this);
+        }
+
+        public void OperationA()
+        {
+        }
+    }
+
+    /// <summary>
+    /// ConcreteElement 2 class
+    /// This class must define what to do to accept visits
+    /// </summary>
+    public class ConcreteElement2 : Element
+    {
+        public override void Accept(Visitor visitor)
+        {
+            visitor.VisitConcreteElementB(this);
+        }
+
+        public void OperationB()
+        {
+        }
+    }
+
+    /// <summary>
+    /// ObjectStructure class
+    /// This class manages elements and orchests visits
+    /// </summary>
+    public class ObjectStructure
+    {
+        List<Element> elements = new List<Element>();
+
+        public void Attach(Element element)
+        {
+            elements.Add(element);
+        }
+
+        public void Detach(Element element)
+        {
+            elements.Remove(element);
+        }
+
+        public void Accept(Visitor visitor)
+        {
+            foreach (Element element in elements)
+            {
+                element.Accept(visitor);
+            }
+        }
+    }
+}

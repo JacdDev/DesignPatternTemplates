@@ -1,0 +1,104 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Interpreter Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            string word = "nrettap";
+            Context context = new Context(word);
+
+            List<AbstractExpression> list = new List<AbstractExpression>();
+
+            list.Add(new NonterminalExpression());
+            list.Add(new TerminalExpression2());
+
+            foreach (AbstractExpression exp in list)
+            {
+                exp.Interpret(context);
+            }
+
+            context.Print();
+        }
+    }
+
+    /// <summary>
+    /// Context class
+    /// This class contains global information about the interpretation
+    /// </summary>
+    public class Context
+    {
+        public char[] word;
+        public int position = 0;
+        public Context(string word)
+        {
+            this.word = word.ToCharArray();
+        }
+
+        public void Print()
+        {
+            Console.WriteLine(word);
+        }
+    }
+
+    /// <summary>
+    /// AbstractExpression abstract class
+    /// Put here all the members your terminal and non terminal expressions must define
+    /// </summary>
+    public abstract class AbstractExpression
+    {
+        public abstract void Interpret(Context context);
+    }
+
+    /// <summary>
+    /// TerminalExpression 1 class
+    /// This class handle terminal expressions, this example swap character positions
+    /// </summary>
+    public class TerminalExpression1 : AbstractExpression
+    {
+        public override void Interpret(Context context)
+        {
+            char aux = context.word[context.position];
+            context.word[context.position] = context.word[context.word.Length - context.position -1];
+            context.word[context.word.Length - context.position -1] = aux;
+        }
+    }
+
+    /// <summary>
+    /// TerminalExpression 2 class
+    /// This class handle terminal expressions, this example turn to upper
+    /// </summary>
+    public class TerminalExpression2 : AbstractExpression
+    {
+        public override void Interpret(Context context)
+        {
+            context.word = new String(context.word).ToUpper().ToCharArray();
+        }
+    }
+
+    /// <summary>
+    /// NonterminalExpression class
+    /// This class handle non terminal expressions, can include others AbstractExpression to make interpretations
+    /// </summary>
+    public class NonterminalExpression : AbstractExpression
+    {
+        private TerminalExpression1 _expression = new TerminalExpression1();
+
+        public override void Interpret(Context context)
+        {
+            for(int i = 0; i < context.word.Length/2; ++i)
+            {
+                context.position = i;
+                _expression.Interpret(context);
+            }
+        }
+    }
+}

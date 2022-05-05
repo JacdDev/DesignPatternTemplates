@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Flyweight Design Pattern Template
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary> 
+        public void Run()
+        {
+            FlyweightFactory factory = new FlyweightFactory();
+
+            Flyweight fx = factory.GetFlyweight(1);
+            fx.Operation();
+
+            Flyweight fy = factory.GetFlyweight(2);
+            fy.Operation();
+
+            Flyweight fz = factory.GetFlyweight(3);
+            fz.Operation();
+
+            UnsharedConcreteFlyweight fu = new UnsharedConcreteFlyweight();
+            fu.Operation();
+        }
+    }
+    /// <summary>
+    /// FlyweightFactory class
+    /// This class enables to share the Flyweights
+    /// </summary>
+    public class FlyweightFactory
+    {
+        private Dictionary<int, Flyweight> flyweights { get; set; } = new Dictionary<int, Flyweight>();
+
+        public Flyweight GetFlyweight(int key)
+        {
+            if(!flyweights.ContainsKey(key))
+                flyweights.Add(key, new ConcreteFlyweight(key));
+
+            return flyweights[key];
+        }
+    }
+
+    /// <summary>
+    /// Flyweight abstract class
+    /// Put here all the members your concrete flyweights must define
+    /// </summary>
+    public abstract class Flyweight
+    {
+        public abstract void Operation();
+    }
+
+    /// <summary>
+    /// ConcreteFlyweight class
+    /// Define all the members of shared flyweight
+    /// </summary>
+    public class ConcreteFlyweight : Flyweight
+    {
+        private int _id;
+        public ConcreteFlyweight(int id)
+        {
+            _id = id;
+        }
+
+        public override void Operation()
+        {
+            Console.WriteLine("ConcreteFlyweight "+_id+" doing something");
+        }
+    }
+
+    /// <summary>
+    /// optional UnsharedConcreteFlyweight class
+    /// Define all the members of unshared flyweight
+    /// </summary>
+
+    public class UnsharedConcreteFlyweight : Flyweight
+    {
+        public override void Operation()
+        {
+            Console.WriteLine("UnsharedConcreteFlyweight doing something");
+        }
+    }
+}

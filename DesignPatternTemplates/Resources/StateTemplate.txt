@@ -1,0 +1,85 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// State Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            var context = new Context(new ConcreteState1());
+
+            context.Request();
+            context.Request();
+            context.Request();
+            context.Request();
+        }
+    }
+
+    /// <summary>
+    /// State abstract class
+    /// Put here the members your concrete states must define
+    /// </summary>
+    public abstract class State
+    {
+        public abstract void Handle(Context context);
+    }
+
+    /// <summary>
+    /// ConcreteState 1 class
+    /// This class defines a state and its behaviour
+    /// </summary>
+    public class ConcreteState1 : State
+    {
+        public override void Handle(Context context)
+        {
+            context.State = new ConcreteState2();
+        }
+    }
+
+    /// <summary>
+    /// ConcreteState 2 class
+    /// This class defines a state and its behaviour
+    /// </summary>
+    public class ConcreteState2 : State
+    {
+        public override void Handle(Context context)
+        {
+            context.State = new ConcreteState1();
+        }
+    }
+
+    /// <summary>
+    /// Context class
+    /// This class contains and manages the state
+    /// </summary>
+    public class Context
+    {
+        State state;
+
+        public Context(State state)
+        {
+            this.State = state;
+        }
+
+        public State State
+        {
+            get { return state; }
+            set
+            {
+                state = value;
+                Console.WriteLine("State: " + state.GetType().Name);
+            }
+        }
+
+        public void Request()
+        {
+            state.Handle(this);
+        }
+    }
+}

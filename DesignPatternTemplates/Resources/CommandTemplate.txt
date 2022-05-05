@@ -1,0 +1,87 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Command Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            Receiver receiver = new Receiver();
+            Command command = new ConcreteCommand(receiver);
+            Invoker invoker = new Invoker();
+
+            invoker.SetCommand(command);
+            invoker.ExecuteCommand();
+        }
+    }
+
+    /// <summary>
+    /// Command abstract class
+    /// Put here all the members your concrete commands must define
+    /// </summary>
+    public abstract class Command
+    {
+        protected Receiver receiver;
+
+        public Command(Receiver receiver)
+        {
+            this.receiver = receiver;
+        }
+
+        public abstract void Execute();
+    }
+
+    /// <summary>
+    /// ConcreteCommand class
+    /// This class manage the receiver and tell it what to do
+    /// </summary>
+    public class ConcreteCommand : Command
+    {
+        public ConcreteCommand(Receiver receiver) :
+            base(receiver)
+        {
+        }
+
+        public override void Execute()
+        {
+            receiver.Action();
+        }
+    }
+
+    /// <summary>
+    /// Receiver class
+    /// This class is called by commands to do stuff
+    /// </summary>
+    public class Receiver
+    {
+        public void Action()
+        {
+            Console.WriteLine("Receiver called");
+        }
+    }
+
+    /// <summary>
+    /// Invoker class
+    /// This class execute commands
+    /// </summary>
+    public class Invoker
+    {
+        Command command;
+
+        public void SetCommand(Command command)
+        {
+            this.command = command;
+        }
+
+        public void ExecuteCommand()
+        {
+            command.Execute();
+        }
+    }
+}

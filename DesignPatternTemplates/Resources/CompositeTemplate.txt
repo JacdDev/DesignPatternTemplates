@@ -1,0 +1,105 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Composite Design Pattern Template
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary> 
+        public void Run()
+        {
+            Composite root = new Composite("Composite 1");
+            root.Add(new Leaf("Leaf 11"));
+            root.Add(new Leaf("Leaf 12"));
+
+            Composite comp = new Composite("Composite 2");
+            comp.Add(new Leaf("Leaf 21"));
+            comp.Add(new Leaf("Leaf 22"));
+
+            root.Add(comp);
+            root.Add(new Leaf("Leaf 13"));
+
+            root.Print();
+            comp.Print();
+        }
+    }
+
+    /// <summary>
+    /// Component abstract class
+    /// Put here all the members the composite and leaf must define
+    /// </summary>
+    public abstract class Component
+    {
+        protected string name;
+
+        public Component(string name)
+        {
+            this.name = name;
+        }
+
+        public abstract void Add(Component c);
+        public abstract void Remove(Component c);
+        public abstract void Print();
+    }
+
+    /// <summary>
+    /// Composite class
+    /// This class acts as a tree node with children
+    /// </summary>
+    public class Composite : Component
+    {
+        List<Component> children = new List<Component>();
+
+        public Composite(string name)
+            : base(name)
+        {
+        }
+
+        public override void Add(Component component)
+        {
+            children.Add(component);
+        }
+
+        public override void Remove(Component component)
+        {
+            children.Remove(component);
+        }
+
+        public override void Print()
+        {
+            Console.WriteLine(name +" is a composite with "+ children.Count + " children");
+        }
+    }
+
+    /// <summary>
+    /// Leaf class
+    /// This class acts as a tree node without children
+    /// </summary>
+    public class Leaf : Component
+    {
+        public Leaf(string name)
+            : base(name)
+        {
+        }
+
+        public override void Add(Component c)
+        {
+            throw new Exception("Leaf has no children");
+        }
+
+        public override void Remove(Component c)
+        {
+            throw new Exception("Leaf has no children");
+        }
+
+        public override void Print()
+        {
+            Console.WriteLine(name + " is a leaf");
+        }
+    }
+}

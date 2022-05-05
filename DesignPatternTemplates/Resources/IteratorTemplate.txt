@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Iterator Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            ConcreteAggregate collection = new ConcreteAggregate();
+            collection[0] = 1;
+            collection[1] = 2;
+            collection[2] = 3;
+            collection[3] = 4;
+
+            Iterator iterator = collection.CreateIterator();
+
+            while (!iterator.IsDone())
+            {
+                Console.WriteLine(iterator.Next());
+            }
+        }
+    }
+
+    /// <summary>
+    /// Aggregate abstract class
+    /// Put here the members your concrete aggregate must define
+    /// </summary>
+    public abstract class Aggregate
+    {
+        public abstract Iterator CreateIterator();
+    }
+
+    /// <summary>
+    /// ConcreteAggregate class
+    /// This class defines the collection to iterate
+    /// </summary>
+    public class ConcreteAggregate : Aggregate
+    {
+        List<object> items = new List<object>();
+
+        public override Iterator CreateIterator()
+        {
+            return new ConcreteIterator(this);
+        }
+
+        public int Count
+        {
+            get { return items.Count; }
+        }
+
+        public object this[int index]
+        {
+            get { return items[index]; }
+            set { items.Insert(index, value); }
+        }
+    }
+
+    /// <summary>
+    /// Iterator abstract class
+    /// Put here the members your concrete iterator must define
+    /// </summary>
+    public abstract class Iterator
+    {
+        public abstract object First();
+        public abstract object Next();
+        public abstract bool IsDone();
+        public abstract object CurrentItem();
+    }
+
+    /// <summary>
+    /// ConcreteIterator class
+    /// This class will manage the collection to iterate and get its values
+    /// </summary>
+
+    public class ConcreteIterator : Iterator
+    {
+        ConcreteAggregate aggregate;
+        int current = 0;
+
+        public ConcreteIterator(ConcreteAggregate aggregate)
+        {
+            this.aggregate = aggregate;
+        }
+
+        public override object First()
+        {
+            return aggregate[0];
+        }
+
+        public override object Next()
+        {
+            object ret = null;
+            if (current <= aggregate.Count)
+            {
+                ret = aggregate[current];
+                ++current;
+            }
+
+            return ret;
+        }
+
+        public override object CurrentItem()
+        {
+            return aggregate[current];
+        }
+
+        public override bool IsDone()
+        {
+            return current >= aggregate.Count;
+        }
+    }
+}

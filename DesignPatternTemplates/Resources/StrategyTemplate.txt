@@ -1,0 +1,94 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Strategy Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            Context context;
+
+            context = new Context(new ConcreteStrategy1());
+            context.ContextInterface();
+
+            context = new Context(new ConcreteStrategy2());
+            context.ContextInterface();
+
+            context = new Context(new ConcreteStrategy3());
+            context.ContextInterface();
+        }
+    }
+
+    /// <summary>
+    /// Strategy abstract class
+    /// Put here the members your concrete strategies must define
+    /// </summary>
+    public abstract class Strategy
+    {
+        public abstract void AlgorithmInterface();
+    }
+
+    /// <summary>
+    /// ConcreteStrategy 1 class
+    /// Define here the members of strategy asbtract class
+    /// </summary>
+    public class ConcreteStrategy1 : Strategy
+    {
+        public override void AlgorithmInterface()
+        {
+            Console.WriteLine(
+                "ConcreteStrategy1 called");
+        }
+    }
+
+    /// <summary>
+    /// ConcreteStrategy 2 class
+    /// Define here the members of strategy asbtract class
+    /// </summary>
+    public class ConcreteStrategy2 : Strategy
+    {
+        public override void AlgorithmInterface()
+        {
+            Console.WriteLine(
+                "ConcreteStrategy2 called");
+        }
+    }
+
+    /// <summary>
+    /// ConcreteStrategy 3 class
+    /// Define here the members of strategy asbtract class
+    /// </summary>
+    public class ConcreteStrategy3 : Strategy
+    {
+        public override void AlgorithmInterface()
+        {
+            Console.WriteLine(
+                "ConcreteStrategy3 called");
+        }
+    }
+
+    /// <summary>
+    /// Context class
+    /// This class contains a strategy and uses it
+    /// </summary>
+    public class Context
+    {
+        Strategy strategy;
+
+        public Context(Strategy strategy)
+        {
+            this.strategy = strategy;
+        }
+
+        public void ContextInterface()
+        {
+            strategy.AlgorithmInterface();
+        }
+    }
+}

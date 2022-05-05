@@ -1,0 +1,101 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Facade Design Pattern Template
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary> 
+        public void Run()
+        {
+            Facade facade = new Facade();
+
+            facade.DoSomething();
+            facade.DoSomethingElse();
+        }
+    }
+
+    /// <summary>
+    /// Subsystem 1 class
+    /// This class will be managed by Facade class
+    /// </summary>
+    public class SubSystemOne
+    {
+        public void MethodOne()
+        {
+            Console.WriteLine(" SubSystemOne Method");
+        }
+    }
+
+    /// <summary>
+    /// Subsystem 2 class
+    /// This class will be managed by Facade class
+    /// </summary>
+    public class SubSystemTwo
+    {
+        public void MethodTwo()
+        {
+            Console.WriteLine(" SubSystemTwo Method");
+        }
+    }
+
+    /// <summary>
+    /// Subsystem 3 class
+    /// This class will be managed by Facade class
+    /// </summary>
+    public class SubSystemThree
+    {
+        public void MethodThree()
+        {
+            Console.WriteLine(" SubSystemThree Method");
+        }
+    }
+
+    /// <summary>
+    /// Subsystem 4 class
+    /// This class will be managed by Facade class
+    /// </summary>
+    public class SubSystemFour
+    {
+        public void MethodFour()
+        {
+            Console.WriteLine(" SubSystemFour Method");
+        }
+    }
+
+    /// <summary>
+    /// Facade class
+    /// This class manages all the subsystems
+    /// </summary>
+    public class Facade
+    {
+        SubSystemOne one;
+        SubSystemTwo two;
+        SubSystemThree three;
+        SubSystemFour four;
+
+        public Facade()
+        {
+            one = new SubSystemOne();
+            two = new SubSystemTwo();
+            three = new SubSystemThree();
+            four = new SubSystemFour();
+        }
+
+        public void DoSomething()
+        {
+            one.MethodOne();
+            four.MethodFour();
+        }
+
+        public void DoSomethingElse()
+        {
+            two.MethodTwo();
+            three.MethodThree();
+        }
+    }
+}

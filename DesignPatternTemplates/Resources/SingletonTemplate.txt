@@ -1,0 +1,47 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Singleton Design Pattern Template
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary> 
+        public void Run()
+        {
+            Singleton s1 = Singleton.Instance();
+            Singleton s2 = Singleton.Instance();
+
+            if (s1 == s2)
+            {
+                Console.WriteLine("Objects are the same instance");
+            }
+        }
+    }
+
+    /// <summary>
+    /// The Singleton class
+    /// Put here a protected constructor and a method to instantiate the object or return it if already exists
+    /// </summary>
+    public class Singleton
+    {
+        static Singleton instance;
+
+        protected Singleton()
+        {
+        }
+
+        public static Singleton Instance()
+        {
+            if (instance == null)
+            {
+                instance = new Singleton();
+            }
+
+            return instance;
+        }
+    }
+}

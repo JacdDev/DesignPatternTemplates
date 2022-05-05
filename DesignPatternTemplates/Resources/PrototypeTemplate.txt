@@ -1,0 +1,63 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Prototype Design Pattern Template
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary> 
+        public void Run()
+        {
+            Prototype original = new ConcretePrototype(Guid.NewGuid().ToString());
+            Prototype clone = original.Clone();
+            Console.WriteLine("Original: {0}", original.Id);
+            Console.WriteLine("Cloned: {0}", clone.Id);
+        }
+    }
+
+    /// <summary>
+    /// The Prototype abstract class
+    /// Put here the abstract method to define the copy
+    /// </summary>
+    public abstract class Prototype
+    {
+        string id;
+
+        public Prototype(string id)
+        {
+            this.id = id;
+        }
+
+        public string Id
+        {
+            get { return id; }
+        }
+
+        public abstract Prototype Clone();
+    }
+
+    /// <summary>
+    /// A ConcretePrototype class 
+    /// Define here the method to copy
+    /// </summary>
+    public class ConcretePrototype : Prototype
+    {
+        // Constructor
+
+        public ConcretePrototype(string id)
+            : base(id)
+        {
+        }
+
+        // Returns a shallow copy
+
+        public override Prototype Clone()
+        {
+            return (Prototype)this.MemberwiseClone();
+        }
+    }
+}

@@ -1,0 +1,91 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{ 
+    /// <summary>
+    /// Factory Method Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            // An array of creators
+            Creator creator1 = new ConcreteCreatorA();
+            Product product1 = creator1.FactoryMethod();
+            product1.PrintType();
+
+            Creator creator2 = new ConcreteCreatorB();
+            Product product2 = creator2.FactoryMethod();
+            product2.PrintType();
+        }
+    }
+
+    /// <summary>
+    /// Product abstract class
+    /// Put here all the members the concrete products must define
+    /// </summary>
+    abstract class Product
+    {
+        public abstract void PrintType();
+    }
+
+    /// <summary>
+    /// Product concrete class A
+    /// Define here the members inherited from Product
+    /// </summary>
+    class ConcreteProductA : Product
+    {
+        public override void PrintType()
+        {
+            Console.WriteLine("Product type A");
+        }
+    }
+
+    /// <summary>
+    /// Product concrete class B
+    /// Define here the members inherited from Product
+    /// </summary>
+    class ConcreteProductB : Product
+    {
+        public override void PrintType()
+        {
+            Console.WriteLine("Product type B");
+        }
+    }
+
+    /// <summary>
+    /// Creator abstract class
+    /// Put here all the members the concrete creators must define
+    /// </summary>
+    abstract class Creator
+    {
+        public abstract Product FactoryMethod();
+    }
+
+    /// <summary>
+    /// Creator concrete class A
+    /// Define here the members inherited from Creator
+    /// </summary>
+    class ConcreteCreatorA : Creator
+    {
+        public override Product FactoryMethod()
+        {
+            return new ConcreteProductA();
+        }
+    }
+
+    /// <summary>
+    /// Creator concrete class B
+    /// Define here the members inherited from Creator
+    /// </summary>
+    class ConcreteCreatorB : Creator
+    {
+        public override Product FactoryMethod()
+        {
+            return new ConcreteProductB();
+        }
+    }
+}

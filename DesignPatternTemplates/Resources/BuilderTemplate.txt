@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Builder Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            Builder b1 = new ConcreteBuilder1();
+            Product p1 = b1.BuildProduct();
+            p1.Print();
+
+            Builder b2 = new ConcreteBuilder2();
+            Product p2 = b2.BuildProduct();
+            p2.Print();
+        }
+    }
+
+    /// <summary>
+    /// Builder asbtract class
+    /// Put here all the members the concrete builders must define
+    /// </summary>
+    abstract class Builder
+    {
+        public abstract Product BuildProduct();
+        public abstract void BuildType(Product product);
+        public abstract void BuildName(Product product);
+    }
+
+    /// <summary>
+    /// Builder concrete class 1
+    /// Define here the members inherited from Builder
+    /// </summary>
+    class ConcreteBuilder1 : Builder
+    {
+        public override void BuildType(Product product)
+        {
+            product.Add("Type","1");
+        }
+
+        public override void BuildName(Product product)
+        {
+            product.Add("Name", "Product1");
+        }
+
+        public override Product BuildProduct()
+        {
+            Product product = new Product();
+            BuildType(product);
+            BuildName(product);
+            return product;
+        }
+    }
+
+    /// <summary>
+    /// Builder concrete class 2
+    /// Define here the members inherited from Builder
+    /// </summary>
+    class ConcreteBuilder2 : Builder
+    {
+        public override void BuildType(Product product)
+        {
+            product.Add("Type", "2");
+        }
+
+        public override void BuildName(Product product)
+        {
+            product.Add("Name", "Product2");
+        }
+
+        public override Product BuildProduct()
+        {
+            Product product = new Product();
+            BuildType(product);
+            BuildName(product);
+            return product;
+        }
+    }
+
+    /// <summary>
+    /// The Product class
+    /// Define here the objects built from builders
+    /// </summary>
+    class Product
+    {
+        private Dictionary<string, string> _properties = new Dictionary<string, string>();
+
+        public void Add(string key, string value)
+        {
+            _properties.Add(key, value);
+        }
+
+        public void Print()
+        {
+            Console.WriteLine("Properties:");
+            foreach (string key in _properties.Keys)
+                Console.WriteLine(key +":"+ _properties[key]);
+        }
+    }
+}

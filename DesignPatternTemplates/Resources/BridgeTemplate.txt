@@ -1,0 +1,93 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Bridge Design Pattern Template
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary> 
+        public void Run()
+        {
+            Abstraction ab = new RefinedAbstraction();
+
+            ab.Implementor = new ConcreteImplementorA();
+            ab.Operation();
+
+            ab.Implementor = new ConcreteImplementorB();
+            ab.Operation();
+
+        }
+    }
+
+    /// <summary>
+    /// Abstraction class
+    /// This is the class that will act as intermediate
+    /// </summary>
+    public class Abstraction
+    {
+        protected Implementor implementor;
+
+        public Implementor Implementor
+        {
+            set { implementor = value; }
+        }
+
+        public virtual void Operation()
+        {
+            implementor.Operation();
+        }
+    }
+
+
+    /// <summary>
+    /// RefinedAbstraction class
+    /// Here you can add functionalities to the intermediator without changing its behaviour
+    /// </summary>
+    public class RefinedAbstraction : Abstraction
+    {
+        public override void Operation()
+        {
+            implementor.Operation();
+        }
+    }
+
+    /// <summary>
+    /// Implementor abstract class
+    /// Put here all the memberst that must be defined by the concrete implementors
+    /// </summary>
+    public abstract class Implementor
+    {
+        public abstract void Operation();
+    }
+
+
+    /// <summary>
+    /// Concrete Implementor A class
+    /// Define here all the members of Implementor
+    /// </summary>
+
+    public class ConcreteImplementorA : Implementor
+    {
+        public override void Operation()
+        {
+            Console.WriteLine("Concrete Implementor A Operation");
+        }
+    }
+
+    /// <summary>
+    /// ConcreteImplementor B class
+    /// Define here all the members of Implementor
+    /// </summary>
+
+    public class ConcreteImplementorB : Implementor
+    {
+        public override void Operation()
+        {
+            Console.WriteLine("Concrete Implementor B Operation");
+        }
+    }
+}

@@ -1,0 +1,127 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Abstract Factory Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            AbstractFactory factory1 = new ConcreteFactory1();
+            AbstractProductA productA1 = factory1.CreateProductA();
+            AbstractProductB productB1 = factory1.CreateProductB();
+            productB1.DoSomething(productA1);
+
+            AbstractFactory factory2 = new ConcreteFactory2();
+            AbstractProductA productA2 = factory2.CreateProductA();
+            AbstractProductB productB2 = factory2.CreateProductB();
+            productB2.DoSomething(productA2);
+        }
+    }
+
+    /// <summary>
+    /// Abstract Factory
+    /// Put here all the members the concrete factories must define
+    /// </summary>
+    abstract class AbstractFactory
+    {
+        public abstract AbstractProductA CreateProductA();
+        public abstract AbstractProductB CreateProductB();
+    }
+
+
+    /// <summary>
+    /// Concrete Factory 1
+    /// Define here the members inherited from Abstract Factory
+    /// </summary>
+    class ConcreteFactory1 : AbstractFactory
+    {
+        public override AbstractProductA CreateProductA()
+        {
+            return new ProductA1();
+        }
+        public override AbstractProductB CreateProductB()
+        {
+            return new ProductB1();
+        }
+    }
+
+    /// <summary>
+    /// Concrete Factory 2
+    /// Define here the members inherited from Abstract Factory
+    /// </summary>
+    class ConcreteFactory2 : AbstractFactory
+    {
+        public override AbstractProductA CreateProductA()
+        {
+            return new ProductA2();
+        }
+        public override AbstractProductB CreateProductB()
+        {
+            return new ProductB2();
+        }
+    }
+
+    /// <summary>
+    /// Abstract Product A
+    /// Put here the members the concrete products must define
+    /// </summary>
+    abstract class AbstractProductA
+    {
+    }
+
+    /// <summary>
+    /// Abstract Product B
+    /// Put here the members the concrete products must define
+    /// </summary>
+    abstract class AbstractProductB
+    {
+        public abstract void DoSomething(AbstractProductA a);
+    }
+
+
+    /// <summary>
+    /// Concrete Product A 1
+    /// Define here the members inherited from Abstract Product A
+    /// </summary>
+    class ProductA1 : AbstractProductA
+    {
+    }
+
+    /// <summary>
+    /// Concrete Product B 1
+    /// Define here the members inherited from Abstract Product B
+    /// </summary>
+    class ProductB1 : AbstractProductB
+    {
+        public override void DoSomething(AbstractProductA a)
+        {
+            Console.WriteLine(this.GetType().Name + " do something with " + a.GetType().Name);
+        }
+    }
+
+    /// <summary>
+    /// Concrete Product A 2
+    /// Define here the members inherited from Abstract Product A
+    /// </summary>
+    class ProductA2 : AbstractProductA
+    {
+    }
+
+    /// <summary>
+    /// Concrete Product B 2
+    /// Define here the members inherited from Abstract Product B
+    /// </summary>
+    class ProductB2 : AbstractProductB
+    {
+        public override void DoSomething(AbstractProductA a)
+        {
+            Console.WriteLine(this.GetType().Name + " do something with " + a.GetType().Name);
+        }
+    }
+}

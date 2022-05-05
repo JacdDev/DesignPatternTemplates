@@ -1,0 +1,90 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Memento Design Pattern Template.
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary>
+        public void Run()
+        {
+            Originator o = new Originator();
+            o.State = "On";
+
+            Caretaker c = new Caretaker();
+            c.Memento = o.CreateMemento();
+
+            o.State = "Off";
+
+            o.SetMemento(c.Memento);
+        }
+    }
+
+    /// <summary>
+    /// Originator class
+    /// This class contains the state we want to save or restore
+    /// </summary>
+    public class Originator
+    {
+        string state;
+
+        public string State
+        {
+            get { return state; }
+            set
+            {
+                state = value;
+                Console.WriteLine("State = " + state);
+            }
+        }
+
+        public Memento CreateMemento()
+        {
+            return (new Memento(state));
+        }
+
+        public void SetMemento(Memento memento)
+        {
+            Console.WriteLine("Restoring state...");
+            State = memento.State;
+        }
+    }
+
+    /// <summary>
+    /// Memento class
+    /// This class stores the saved state
+    /// </summary>
+    public class Memento
+    {
+        string state;
+
+        public Memento(string state)
+        {
+            this.state = state;
+        }
+
+        public string State
+        {
+            get { return state; }
+        }
+    }
+
+    /// <summary>
+    /// Caretaker class
+    /// This class manages the saved Memento
+    /// </summary>
+    public class Caretaker
+    {
+        Memento memento;
+
+        public Memento Memento
+        {
+            set { memento = value; }
+            get { return memento; }
+        }
+    }
+}

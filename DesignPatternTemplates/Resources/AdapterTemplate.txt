@@ -1,0 +1,58 @@
+﻿using System;
+
+namespace DesignPatternTemplates
+{
+    /// <summary>
+    /// Adapter Design Pattern Template
+    /// </summary>
+    class Main
+    {
+        /// <summary>
+        /// Example of pattern use
+        /// </summary> 
+        public void Run()
+        {
+            Target target = new Adapter();
+            target.DoSomething();
+        }
+
+    }
+
+    /// <summary>
+    /// Target class
+    /// This is the class your program will manage
+    /// </summary>
+    public class Target
+    {
+        public virtual void DoSomething()
+        {
+            Console.WriteLine("Target class doing something");
+        }
+    }
+
+    /// <summary>
+    /// Adapter class
+    /// This is the class that will manage the conversion
+    /// </summary>
+    public class Adapter : Target
+    {
+        private Adaptee adaptee = new Adaptee();
+
+        public override void DoSomething()
+        {
+            adaptee.DoSomething();
+        }
+    }
+
+    /// <summary>
+    /// Adaptee class
+    /// This is the class that will be used instead of Target
+    /// </summary>
+    public class Adaptee
+    {
+        public void DoSomething()
+        {
+            Console.WriteLine("Adaptee class doing something");
+        }
+    }
+}
