@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using EnvDTE;
+using System;
+using System.Collections;
 
 namespace DesignPatternTemplates
 {
@@ -33,6 +35,8 @@ namespace DesignPatternTemplates
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new GroupedComboBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // label1
@@ -84,7 +88,7 @@ namespace DesignPatternTemplates
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(213, 121);
+            this.button1.Location = new System.Drawing.Point(222, 213);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 2;
@@ -92,11 +96,38 @@ namespace DesignPatternTemplates
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
+            // label2
+            //
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(77, 121);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(72, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Select project";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(77, 149);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(161, 21);
+            this.comboBox2.TabIndex = 4;
+            Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
+            var _dte = Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider.GetService(typeof(DTE)) as DTE;
+            foreach (Project project in _dte.Solution.Projects) {
+                if(project.UniqueName != "<MiscFiles>")
+                    this.comboBox2.Items.Add(project.Name);
+            }
+            if(this.comboBox2.Items.Count > 0)
+                this.comboBox2.SelectedIndex = 0;
+            // 
             // PatternSelectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 156);
+            this.ClientSize = new System.Drawing.Size(309, 248);
+            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label1);
@@ -112,5 +143,7 @@ namespace DesignPatternTemplates
         private System.Windows.Forms.Label label1;
         private GroupedComboBox comboBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBox2;
     }
 }

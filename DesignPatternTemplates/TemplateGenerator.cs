@@ -13,20 +13,21 @@ namespace DesignPatternTemplates
 
         }
 
-        public static void Generate(string templateName)
+        public static void Generate(string templateName, int projectIndex)
         {
             string extensionPath = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("DesignPatternTemplates.dll", "");
             string originPath = extensionPath + "\\Resources\\" + templateName;
 
             string destinationPath;
+
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             var _dte = Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider.GetService(typeof(DTE)) as DTE;
             Assumes.Present(_dte);
 
             Project _selectedProject;
-            if (_dte.ActiveSolutionProjects is Array _projects && _projects.Length != 0)
+            if (_dte.Solution.Projects.Count != 0)
             {
-                _selectedProject = _projects.GetValue(0) as Project;
+               _selectedProject = _dte.Solution.Projects.Item(projectIndex+1);
                 destinationPath = new FileInfo(_selectedProject.FullName).DirectoryName + "\\" + templateName.Replace(".txt", ".cs");
             }
             else
@@ -48,7 +49,7 @@ namespace DesignPatternTemplates
             }
 
             string templateContent = File.ReadAllText(originPath);
-            templateContent = templateContent.Replace("${namespace}", _selectedProject.Name);
+            templateContent = templateContent.Replace("${namespace}", new FileInfo(_dte.Solution.FullName).Name.Replace(".sln", ".") + _selectedProject.Name);
             File.WriteAllText(destinationPath, templateContent);
 
             _dte.ItemOperations.OpenFile(destinationPath);

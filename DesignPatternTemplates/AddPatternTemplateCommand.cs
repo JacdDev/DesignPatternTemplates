@@ -21,6 +21,7 @@ namespace DesignPatternTemplates
         /// </summary>
         public static readonly Guid CommandSet = new Guid("9a7e4763-53b0-4606-965f-f20cd11bdec4");
 
+        private static bool _messageBoxManagerRegistered = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddPatternTemplateCommand"/> class.
@@ -71,7 +72,8 @@ namespace DesignPatternTemplates
         {
             ThreadHelper.ThrowIfNotOnUIThread();
 
-            ConfigureStaticData();
+            if(!_messageBoxManagerRegistered)
+                ConfigureStaticData();
 
             var patternSelectionForm = new PatternSelectionForm
             {
@@ -86,6 +88,7 @@ namespace DesignPatternTemplates
             MessageBoxManager.Yes = "Yes";
             MessageBoxManager.No = "No";
             MessageBoxManager.Register();
+            _messageBoxManagerRegistered = true;
         }
     }
 }
