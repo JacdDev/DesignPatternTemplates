@@ -13,12 +13,15 @@ namespace DesignPatternTemplates
 
         }
 
-        public static void Generate(string templateName, int projectIndex)
+        public static void Generate(string templateName, int projectIndex, string userDefinedPath)
         {
             string extensionPath = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("DesignPatternTemplates.dll", "");
             string originPath = extensionPath + "\\Resources\\" + templateName;
-
             string destinationPath;
+            if (!String.IsNullOrEmpty(userDefinedPath))
+                userDefinedPath = "\\" + userDefinedPath;
+            else
+                userDefinedPath = "";
 
             Microsoft.VisualStudio.Shell.ThreadHelper.ThrowIfNotOnUIThread();
             var _dte = Microsoft.VisualStudio.Shell.ServiceProvider.GlobalProvider.GetService(typeof(DTE)) as DTE;
@@ -28,7 +31,9 @@ namespace DesignPatternTemplates
             if (_dte.Solution.Projects.Count != 0)
             {
                _selectedProject = _dte.Solution.Projects.Item(projectIndex+1);
-                destinationPath = new FileInfo(_selectedProject.FullName).DirectoryName + "\\" + templateName.Replace(".txt", ".cs");
+                destinationPath = new FileInfo(_selectedProject.FullName).DirectoryName + 
+                    userDefinedPath + "\\" +
+                    templateName.Replace(".txt", ".cs");
             }
             else
             {
@@ -48,8 +53,17 @@ namespace DesignPatternTemplates
                     return;
             }
 
+            string destinationDirectory = new FileInfo(destinationPath).DirectoryName;
+            if (!Directory.Exists(destinationDirectory))
+            {
+                Directory.CreateDirectory(destinationDirectory);
+            }
+
             string templateContent = File.ReadAllText(originPath);
-            templateContent = templateContent.Replace("${namespace}", new FileInfo(_dte.Solution.FullName).Name.Replace(".sln", ".") + _selectedProject.Name);
+            string actualNamespace = new FileInfo(_dte.Solution.FullName).Name.Replace(".sln", ".") +
+                _selectedProject.Name +
+                userDefinedPath.Replace("\\", ".").Replace("/", ".");
+            templateContent = templateContent.Replace("${namespace}", actualNamespace);
             File.WriteAllText(destinationPath, templateContent);
 
             _dte.ItemOperations.OpenFile(destinationPath);
