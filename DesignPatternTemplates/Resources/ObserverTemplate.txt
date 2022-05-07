@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DesignPatternTemplates
+namespace ${namespace}
 {
     /// <summary>
     /// Observer Design Pattern Template.

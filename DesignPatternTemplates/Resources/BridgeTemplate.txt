@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DesignPatternTemplates
+namespace ${namespace}
 {
     /// <summary>
     /// Bridge Design Pattern Template
